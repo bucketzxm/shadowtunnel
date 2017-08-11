@@ -5,7 +5,8 @@ all: build
 build: shadowtunnel
 
 shadowtunnel: $(shell find . -iname '*.go' -print)
-	CGO_ENABLED=0 godep go build github.com/ziyan/shadowtunnel/cmd/shadowtunnel
+	CGO_ENABLED=0 godep go build github.com/ziyan/shadowtunnel
+	objcopy --strip-all shadowtunnel
 
 .PHONY: test
 test: build
@@ -21,9 +22,4 @@ save:
 
 .PHONY: format
 format:
-	gofmt -l -w cmd pkg
-
-.PHONY: doc
-doc:
-	@godoc -http=:6060 -index=true
-
+	gofmt -l -w client server config secure compress cli
